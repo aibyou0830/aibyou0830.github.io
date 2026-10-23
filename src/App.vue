@@ -1,7 +1,6 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import LinkCard from "./components/LinkCard.vue";
-import fallbackData from "./data.json";
 
 const profile = ref({ name: "My Links", links: [] });
 const loading = ref(true);
@@ -9,14 +8,30 @@ const error = ref("");
 
 const theme = computed(() => {
   const t = profile.value.theme || {};
+  const bgImage = t.bgImage
+    ? `url("${String(t.bgImage).replace(/"/g, "")}")`
+    : "none";
   return {
     "--bg": t.bg || "#0f172a",
+    "--bg-image": bgImage,
+    "--bg-overlay": t.bgImage ? t.bgOverlay || "rgba(15, 23, 42, 0.55)" : "transparent",
     "--card": t.card || "#1e293b",
     "--text": t.text || "#e2e8f0",
     "--muted": t.muted || "#94a3b8",
     "--accent": t.accent || "#22c55e",
   };
 });
+
+watch(
+  theme,
+  (vars) => {
+    const root = document.documentElement;
+    for (const [key, value] of Object.entries(vars)) {
+      root.style.setProperty(key, value);
+    }
+  },
+  { immediate: true },
+);
 
 // 優先讀取 public/data.json（可在不重新建置的情况下編輯）。
 // 若無法 fetch（例如直接用 file:// 開啟），退回打包時內嵌的 src/data.json。
@@ -37,7 +52,7 @@ load();
 </script>
 
 <template>
-  <div class="page" :style="theme">
+  <div class="page">
     <header class="profile">
       <img v-if="profile.avatar" class="avatar" :src="profile.avatar" :alt="profile.name" />
       <h1 class="name">{{ profile.name }}</h1>

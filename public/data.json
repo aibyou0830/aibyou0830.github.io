@@ -2,9 +2,11 @@
   "name": "愛貓",
   "handle": "@aibyou0830",
   "avatar": "https://github.com/aibyou0830.png",
-  "bio": "Full-stack 開發者 | 光網路專業 | 攝影 | 獸圈",
+  "bio": "開發者 | 攝影 | 獸圈",
   "theme": {
     "bg": "#0f172a",
+    "bgImage": "/bg.jpg",
+    "bgOverlay": "rgba(15, 23, 42, 0.55)",
     "card": "#1e293b",
     "text": "#e2e8f0",
     "muted": "#94a3b8",
@@ -33,12 +35,6 @@
       "title": "Discord",
       "url": "https://discord.com/users/aibyou0830",
       "icon": "discord"
-    },
-    {
-      "title": "Email",
-      "url": "mailto:hello@example.com",
-      "icon": "email",
-      "description": "聯絡我"
     }
   ]
 }
