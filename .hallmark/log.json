@@ -1,0 +1,27 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "polish",
+  "scope": "page",
+  "theme": "carried",
+  "prompt": "mobile-first personal link page for 愛貓",
+  "shape": "link-strip",
+  "axes": "dark/grotesk-sans/chromatic-green",
+  "hero": "Settled",
+  "nav": "none",
+  "footer": "one line",
+  "imagery": "user photo bg.jpg",
+  "photos": [],
+  "entry": "profile then four links",
+  "fingerprint": "centre-stack/cards/photo-bleed/no-nav",
+  "sections": [
+   "profile",
+   "links",
+   "footer"
+  ],
+  "signature": "the portrait behind the four links",
+  "waived": [],
+  "copy": "verbatim",
+  "date": "2026-10-29"
+ }
+]

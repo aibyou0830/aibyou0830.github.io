@@ -32,11 +32,5 @@ const style = computed(() => {
       <span class="link-title">{{ link.title }}</span>
       <span v-if="link.description" class="link-desc">{{ link.description }}</span>
     </span>
-
-    <span class="link-arrow" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M7 17V7l10 10H7z" />
-      </svg>
-    </span>
   </a>
 </template>

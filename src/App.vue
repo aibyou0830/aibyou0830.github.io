@@ -1,25 +1,24 @@
 <script setup>
 import { ref, computed, watch } from "vue";
 import LinkCard from "./components/LinkCard.vue";
+import fallbackData from "../public/data.json";
 
 const profile = ref({ name: "My Links", links: [] });
 const loading = ref(true);
 const error = ref("");
 
+// data.json 的 theme 欄位是整頁的 token 來源；未提供的欄位沿用 styles.css 的 :root 值。
 const theme = computed(() => {
   const t = profile.value.theme || {};
-  const bgImage = t.bgImage
-    ? `url("${String(t.bgImage).replace(/"/g, "")}")`
-    : "none";
-  return {
-    "--bg": t.bg || "#0f172a",
-    "--bg-image": bgImage,
-    "--bg-overlay": t.bgImage ? t.bgOverlay || "rgba(15, 23, 42, 0.55)" : "transparent",
-    "--card": t.card || "#1e293b",
-    "--text": t.text || "#e2e8f0",
-    "--muted": t.muted || "#94a3b8",
-    "--accent": t.accent || "#22c55e",
-  };
+  const vars = {};
+  if (t.bg) vars["--bg"] = t.bg;
+  if (t.bgImage) vars["--bg-image"] = `url("${String(t.bgImage).replace(/"/g, "")}")`;
+  if (t.bgImage) vars["--bg-overlay"] = t.bgOverlay || "var(--bg)";
+  if (t.card) vars["--card"] = t.card;
+  if (t.text) vars["--text"] = t.text;
+  if (t.muted) vars["--muted"] = t.muted;
+  if (t.accent) vars["--accent"] = t.accent;
+  return vars;
 });
 
 watch(
@@ -34,7 +33,7 @@ watch(
 );
 
 // 優先讀取 public/data.json（可在不重新建置的情况下編輯）。
-// 若無法 fetch（例如直接用 file:// 開啟），退回打包時內嵌的 src/data.json。
+// 若無法 fetch（例如直接用 file:// 開啟），退回打包時內嵌的同一份資料。
 async function load() {
   try {
     const res = await fetch("/data.json", { cache: "no-store" });
@@ -42,7 +41,7 @@ async function load() {
     profile.value = await res.json();
   } catch (e) {
     profile.value = fallbackData;
-    error.value = "無法讀取 /data.json（" + e.message + "），已使用內嵌的 src/data.json。";
+    error.value = "無法讀取 /data.json（" + e.message + "），已使用打包時內嵌的資料。";
   } finally {
     loading.value = false;
   }
